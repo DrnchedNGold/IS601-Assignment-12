@@ -201,15 +201,80 @@ docker run -it --rm <image-name>
 - **Without Docker**:
 
 ```bash
-python main.py
+python -m app.main
 ```
-
-(or update this if the main script is different.)
 
 - **With Docker**:
 
 ```bash
-docker run -it --rm <image-name>
+docker run -it --rm varuns03/is601-assignment-12:latest
+```
+
+---
+
+# 🧪 7. Running Integration Tests
+
+To run all integration tests:
+
+```bash
+pytest tests/integration/
+```
+
+To run all tests (unit, integration, e2e):
+
+```bash
+pytest
+```
+
+---
+
+# 📖 8. Manual API Testing
+
+Start the FastAPI server and visit:
+
+- [http://localhost:8001/docs](http://localhost:8001/docs) (OpenAPI)
+- [http://localhost:8001/redoc](http://localhost:8001/redoc) (ReDoc)
+
+You can manually test user registration, login, and calculation endpoints here.
+
+---
+
+# 🧾 Example Output
+
+**POST /calculations**
+
+Request:
+```json
+{
+  "type": "addition",
+  "inputs": [2, 3]
+}
+```
+
+Response:
+```json
+{
+  "id": "b1e2c8e2-6e2a-4b1e-9e2a-8e2a6e2a4b1e",
+  "user_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
+  "type": "addition",
+  "inputs": [2, 3],
+  "result": 5.0,
+  "created_at": "2025-11-24T21:45:00",
+  "updated_at": "2025-11-24T21:45:00"
+}
+```
+
+
+# 🐳 9. Docker Hub Repository
+
+Docker images are published at:
+
+- [https://hub.docker.com/r/varuns03/is601-assignment-12/tags](https://hub.docker.com/r/varuns03/is601-assignment-12/tags)
+
+Pull the latest image:
+
+```bash
+docker pull varuns03/is601-assignment-12:latest
 ```
 
 ---
@@ -252,6 +317,20 @@ Then submit the GitHub repository link as instructed.
 - Install and configure **Git** and **SSH** before cloning.
 - Use **Python 3.10+** and **virtual environments** for Python projects.
 - **Docker** is optional depending on the project.
+
+---
+
+# ⚡ Error Handling Paradigms
+
+- **LBYL (Look Before You Leap):** Used for input validation via Pydantic schemas and explicit checks (e.g., UUID format validation in endpoints).
+- **EAFP (Easier to Ask Forgiveness than Permission):** Used for resource access and database operations, with try/except blocks handling errors (e.g., calculation creation, DB commit/rollback).
+
+---
+
+# 🧠 Design Patterns
+
+- **Memento Pattern:** Not explicitly implemented. Could be added to support undo/redo of calculation state by capturing snapshots before changes.
+- **Observer Pattern:** Not explicitly implemented. Could be used for event-driven logging or notifications (e.g., when a calculation is created or updated).
 
 ---
 

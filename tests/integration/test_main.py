@@ -322,3 +322,12 @@ def test_create_token_error(monkeypatch):
     with pytest.raises(Exception) as excinfo:
         jwtmod.create_token(str(uuid.uuid4()), TokenType.ACCESS)
     assert "Could not create token" in str(excinfo.value)
+
+def test_lifespan_startup(monkeypatch):
+    # Monkeypatch print to track calls
+    printed = []
+    monkeypatch.setattr("builtins.print", lambda msg: printed.append(msg))
+    with TestClient(app) as client:
+        client.get("/health")
+    # Check that startup prints were called
+    assert any("Creating tables..." in m for m in printed)
